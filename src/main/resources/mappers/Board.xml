@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bord.project.demo.repository.BoardRepository">
+
+	<resultMap type="com.bord.project.demo.entity.Board" id="boardMap">
+		<id column="board_id" property="boardId"/> 
+		<result column="board_title" property="title"/>
+		<result column="board_content" property="content"/>
+		<result column="board_password" property="password"/>
+	</resultMap>
+
+	<insert id="write" parameterType="hashmap">
+		insert into board_tb
+		values (0, #{title}, #{content}, #{password})
+	</insert>
+	
+	<select id="board" resultMap="boardMap">
+		select
+			board_id,
+			board_title
+		from
+			board_tb
+	</select>
+	
+	<select id="viewPost" resultMap="boardMap" parameterType="Integer">
+		select
+			board_title,
+			board_content
+		from
+			board_tb
+		where
+			board_id = #{boardId}
+	</select>
+	
+	<select id="checkpassword" resultType="String" parameterType="Integer">
+		select
+			board_password
+		from
+			board_tb
+		where
+			board_id = #{boardId}
+	</select>
+</mapper>
